@@ -23,6 +23,8 @@ int main()
 	// input 폴더가 없으면 오류
 	if (!exists(INPUT_DIR)) {
 		cout << "\"input\" folder not found!" << endl;
+		cout << "Press enter key to exit." << endl;
+		cin.get();
 		return -1;
 	}
 	// output 관련 폴더가 남아있으면 날려버림
@@ -45,6 +47,9 @@ int main()
 		start(a_file.path());
 	}
 
+	cout << "FINISH!" << endl;
+	cout << "Press enter key to exit." << endl;
+	cin.get();
 	return 0;
 }
 
