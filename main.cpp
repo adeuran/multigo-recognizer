@@ -1,5 +1,5 @@
 #include "opencv2/opencv.hpp"
-#include <iostream>
+#include <fstream>
 #include <filesystem>
 
 using namespace std::filesystem;
@@ -14,9 +14,7 @@ const string IMAGE_DIR = "/image";
 
 Mat calcGrayHist(const Mat& img);
 void setPotition(char(*map)[19], Point point, bool is_white);
-void start(string filepath);
-
-
+void start(path filepath);
 
 int main()
 {
@@ -45,15 +43,15 @@ int main()
 	// input 폴더의 파일들 불러서 처리 시작
 	for (const directory_entry & a_file : input_files) {
 		cout << a_file << endl;
-		start(a_file.path().string());
+		start(a_file.path());
 	}
 
 	return 0;
 }
 
-void start(string filepath) {
+void start(path filepath) {
 	// 영상 불러오기
-	Mat src = imread(filepath, IMREAD_GRAYSCALE);
+	Mat src = imread(filepath.string(), IMREAD_GRAYSCALE);
 
 	if (src.empty()) {
 		cerr << "Image load failed!" << endl;
@@ -90,12 +88,15 @@ void start(string filepath) {
 		circle(dst, center, radius, Scalar(0, 255, 0), 2, LINE_AA);
 	}
 
-	// 출력
+	// 이미지 저장
+	imwrite(OUTPUT_DIR + IMAGE_DIR + "/" + filepath.filename().string(), dst);
+	// 텍스트 저장
+	ofstream fout(OUTPUT_DIR + TEXT_DIR + "/" + filepath.stem().string()+".txt");
 	for (int i = 0; i < 19; i++) {
 		for (int j = 0; j < 19; j++) {
-			cout << map[j][i];
+			fout.put(map[i][j]);
 		}
-		cout << endl;
+		fout.put('\n');
 	}
 
 	waitKey();
