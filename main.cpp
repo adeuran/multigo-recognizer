@@ -18,7 +18,6 @@ void start(path filepath);
 
 int main()
 {
-
 	//폴더 준비
 	// 
 	// input 폴더가 없으면 오류
@@ -94,10 +93,11 @@ void start(path filepath) {
 	ofstream fout(OUTPUT_DIR + TEXT_DIR + "/" + filepath.stem().string()+".txt");
 	for (int i = 0; i < 19; i++) {
 		for (int j = 0; j < 19; j++) {
-			fout.put(map[i][j]);
+			fout.put(map[j][i]);
 		}
 		fout.put('\n');
 	}
+	fout.close();
 
 	waitKey();
 }
